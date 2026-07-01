@@ -1,0 +1,26 @@
+---
+- name: Deploy with Docker Compose
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: Creyi dossier l-projet f l-server
+      file:
+        path: /home/azureuser/identity-service
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml l-server
+      copy:
+        src: ../docker-compose.yml
+        dest: /home/azureuser/identity-service/docker-compose.yml
+
+    - name: Login l-Docker Hub
+      shell: echo "{{ lookup('env', 'DOCKER_PASSWORD') }}" | docker login -u "{{ lookup('env', 'DOCKER_USERNAME') }}" --password-stdin
+
+
+    - name: Lancy l-containers
+      shell: |
+        cd /home/azureuser/identity-service
+        docker-compose pull  
+        docker-compose down
+        docker-compose up -d

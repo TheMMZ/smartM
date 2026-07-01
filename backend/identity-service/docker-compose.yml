@@ -1,0 +1,36 @@
+services:
+  postgres-identity:
+    image: postgres:16
+    container_name: postgres-identity
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_identity_data:/var/lib/postgresql/data
+    networks:
+      - identity-net
+
+  identity-service:
+    image: ${IDENTITY_IMAGE}
+    container_name: identity-service-app
+    depends_on:
+      - postgres-identity
+    ports:
+      - "8085:8085"
+    environment:
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-identity:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - identity-net
+
+networks:
+  identity-net:
+    driver: bridge
+
+volumes:
+  postgres_identity_data:
