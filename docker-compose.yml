@@ -1,0 +1,15 @@
+services:
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-smartmaintain
+    environment:
+      POSTGRES_DB: smartmaintain_db
+      POSTGRES_USER: karima
+      POSTGRES_PASSWORD: karima123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

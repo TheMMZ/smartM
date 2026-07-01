@@ -1,0 +1,283 @@
+[
+    {
+        "id": "5248ee430cd3639d",
+        "type": "tab",
+        "label": "Smart Engine Sim v6 (Fast UI)",
+        "disabled": false,
+        "info": "v6 Workflow with 1s triggers and engine-specific buffers."
+    },
+    {
+        "id": "ui_tab_engine_ml",
+        "type": "ui_tab",
+        "name": "Engine Diagnostics",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "963b777612353994",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    },
+    {
+        "id": "ui_group_telemetry_ml",
+        "type": "ui_group",
+        "name": "Live Telemetry (GP-7200 Filtered)",
+        "tab": "ui_tab_engine_ml",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "ui_group_analytics_ml",
+        "type": "ui_group",
+        "name": "Model Analytics",
+        "tab": "ui_tab_engine_ml",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "782f77968bb0bada",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "577a97879cedeb2a",
+        "type": "inject",
+        "z": "5248ee430cd3639d",
+        "name": "Trigger Every 1s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "3d1da075b1426f7e"
+            ]
+        ]
+    },
+    {
+        "id": "3d1da075b1426f7e",
+        "type": "http request",
+        "z": "5248ee430cd3639d",
+        "name": "GET /api/equipements",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:8888/api/equipement-service/equipements",
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "6f2ac61bc8dcc593"
+            ]
+        ]
+    },
+    {
+        "id": "6f2ac61bc8dcc593",
+        "type": "split",
+        "z": "5248ee430cd3639d",
+        "name": "Split Engines",
+        "splt": "",
+        "spltType": "str",
+        "arraySplt": "1",
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "d2804a062881eb73"
+            ]
+        ]
+    },
+    {
+        "id": "d2804a062881eb73",
+        "type": "function",
+        "z": "5248ee430cd3639d",
+        "name": "Simulate 14 ML Features & UI",
+        "func": "const engine = msg.payload;\nlet variance = 1.0;\nif (engine.status === \"Warning\") variance = 1.20;\nelse if (engine.status === \"Critical\") variance = 1.45;\n\nconst baseFeatures = [0.12, 0.08, 0.15, 0.10, 0.05, 0.03, 0.40, 0.22, 0.18, 0.09, 0.11, 0.07, 0.02, 0.14];\nlet simulatedFeatures = baseFeatures.map(f => {\n    let noise = (Math.random() * 0.04) - 0.02;\n    return parseFloat(Math.max(0, (f * variance) + noise).toFixed(4));\n});\n\nlet egt = parseFloat((370 + Math.random() * 130 * variance).toFixed(2));\nlet vib = parseFloat((1.0 + Math.random() * 3.8 * variance).toFixed(2));\n\nmsg.payload = {\n    engineId: String(engine.id || \"UNKNOWN\"),\n    engineName: String(engine.nom || \"N/A\"),\n    engineStatus: String(engine.status || \"En service\"),\n    timestamp: new Date().toISOString(),\n    egtTemperature: egt,\n    engineVibration: vib,\n    features: simulatedFeatures\n};\nmsg.engineName = msg.payload.engineName; msg.engineId = msg.payload.engineId;\nreturn msg;",
+        "outputs": 1,
+        "x": 270,
+        "y": 240,
+        "wires": [
+            [
+                "8d7be4b3e134770c"
+            ]
+        ]
+    },
+    {
+        "id": "8d7be4b3e134770c",
+        "type": "function",
+        "z": "5248ee430cd3639d",
+        "name": "Buffer 30 Cycles per Engine",
+        "func": "let engineId = msg.engineId;\nlet buffer = context.get(\"sensorBuffer_\" + engineId) || [];\n\nbuffer.push(msg.payload.features);\nif (buffer.length > 30) {\n    buffer.shift();\n}\ncontext.set(\"sensorBuffer_\" + engineId, buffer);\n\nif (buffer.length === 30) {\n    msg.payload = { window: buffer };\n    return msg;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "x": 580,
+        "y": 240,
+        "wires": [
+            [
+                "ab0773dcbb6045fb"
+            ]
+        ]
+    },
+    {
+        "id": "ab0773dcbb6045fb",
+        "type": "http request",
+        "z": "5248ee430cd3639d",
+        "name": "POST Analytics",
+        "method": "POST",
+        "ret": "txt",
+        "url": "http://127.0.0.1:8000/predict",
+        "x": 460,
+        "y": 360,
+        "wires": [
+            [
+                "1a5d16438d514136"
+            ]
+        ]
+    },
+    {
+        "id": "1a5d16438d514136",
+        "type": "function",
+        "z": "5248ee430cd3639d",
+        "name": "Format Log Request",
+        "func": "try { let prediction = JSON.parse(msg.payload); msg.payload = { engineId: parseInt(msg.engineId), engineName: msg.engineName, alert: prediction.alert === true, rulCycles: prediction.rul_cycles || 0 }; msg.headers = { \"Content-Type\": \"application/json\" }; return msg; } catch(e) { return null; }",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 360,
+        "wires": [
+            [
+                "9fc81b7e7f21d9fb"
+            ]
+        ]
+    },
+    {
+        "id": "9fc81b7e7f21d9fb",
+        "type": "http request",
+        "z": "5248ee430cd3639d",
+        "name": "POST /alerts/log",
+        "method": "POST",
+        "url": "http://localhost:8888/api/equipement-service/alerts/log",
+        "x": 940,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    }
+]

@@ -1,0 +1,18 @@
+[submodule "backend/discovery-service"]
+	path = backend/discovery-service
+	url = https://github.com/Smart-Maintain/discovery-service.git
+[submodule "backend/identity-service"]
+	path = backend/identity-service
+	url = https://github.com/Smart-Maintain/identity-service.git
+[submodule "backend/equipement-service"]
+	path = backend/equipement-service
+	url = https://github.com/Smart-Maintain/equipement-service.git
+[submodule "backend/gateway-service"]
+	path = backend/gateway-service
+	url = https://github.com/Smart-Maintain/gateway-service.git
+[submodule "backend/prediction-service"]
+	path = backend/prediction-service
+	url = https://github.com/Smart-Maintain/prediction-service.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Smart-Maintain/SMART-MAINTAIN-FRONTEND.git
